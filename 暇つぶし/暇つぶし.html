@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>レイバー</title>
+  <link rel="stylesheet" href="kouka.css">
+</head>
+<body>
+  <div id="app">
+    <h1>🌸レイバー図鑑🌸</h1>
+    <form>
+      <label for="search">検索</label>
+      <input type="text" id="search" v-model="searchQuery">
+    </form>
+    <div class="players">
+      <div v-for="player in filteredPlayers" :key="player.id" class="player">
+        <div class="player.image" :style="{ backgroundImage: 'url(' + player.image + ')' }"></div>
+        <h2>{{ player.name }}</h2>
+        <img :src="player.image" alt="レイバーの画像">
+        <p>パイロット:{{ player.pilot }}({{ player.nationality }})</p>
+        <p>製造元({{player.company}})</p>
+        <button @click="goToUrl(player.url)">レイバー詳細</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        searchQuery: '',
+        players: [
+          {
+            id: 1,
+            name: "98式AV イングラム1号機(アルフォンス)",
+            pilot: '泉 野明',
+            nationality: '第二小隊',
+            company: '篠原重工',
+            image: "./image/1号機.png",
+            url: 'https://patlabor.tokyo/mechanic/242/'
+          },
+          {
+            id: 2,
+            name: "98式AV イングラム2号機(太田機)",
+            pilot:'太田功',
+            nationality: '第二小隊',
+            company: '篠原重工',
+            image: "./image/2号機.png",
+            url: 'https://patlabor.tokyo/mechanic/689/'
+          },
+          {
+            id: 3,
+            name: "98式AV イングラム3号機(予備)",
+            pilot:'篠原、香貫花など',
+            nationality:'第二小隊',
+            company: '篠原重工',
+            image:'./image/3号機.png',
+            url:'https://patlabor.tokyo/mechanic/911/'
+          },
+          {
+            id: 4,
+            name: 'AV-X0 零式',
+            pilot:'不明',
+            nationality: 'ニューヨーク市警レイバー隊,第一小隊',
+            company: '篠原重工',
+            image:'./image/零式.png',
+            url:'https://patlabor.tokyo/mechanic/690/'
+          },
+          {
+            id:6,
+            name:'TYPE-J9 グリフォン',
+            pilot:'バドリナート・ハルチャンド',
+            nationality:'実験戦闘用レイバー',
+            company:'SEJ(シャフト・エンタープライズ・ジャパン(土浦研究所))',
+            image:'./image/グリフォン.png',
+            url:'https://patlabor.tokyo/mechanic/688/'
+          },
+          {
+            id:7,
+            name:'ARL-99 ヘルダイバー',
+            pilot:'不破 環生など',
+            nationality:'陸上自衛隊',
+            company:'篠原重工',
+            image:'./image/ヘルダイバー.png',
+            url:'https://patlabor.tokyo/mechanic/909/'
+          },
+          {
+            id:8,
+            name:'AL-97 97式装甲戦闘レイバー',
+            pilot:'不明',
+            nationality:'陸上自衛隊',
+            company:'菱井インダストリー',
+            image:'./image/97式.png',
+            url:'https://patlabor.tokyo/mechanic/910/'
+          },
+          {
+            id:9,
+            name:'TYPE-7 ブロッケン',
+            pilot:'AIなど',
+            nationality:'NATO軍防衛部隊',
+            company:'SEE(シャフト・エンタープライズ・ヨーロッパ)',
+            image:'./image/ブロッケン.png',
+            url:'https://patlabor.tokyo/mechanic/912/'
+          },
+          {
+            id:10,
+            name:'MPL-97S パイソン',
+            pilot:'五味丘 努',
+            nationality:'第一小隊',
+            company:'マナベ重工',
+            image:'./image/パイソン.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%91%E3%82%A4%E3%82%BD%E3%83%B3%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:11,
+            name:'AV-0 ピースメーカー',
+            pilot:'五味丘 努',
+            nationality:'第一小隊',
+            company:'篠原重工',
+            image:'./image/ピースメーカー.png',
+            url:'https://dic.pixiv.net/a/%E3%83%94%E3%83%BC%E3%82%B9%E3%83%A1%E3%83%BC%E3%82%AB%E3%83%BC%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:12,
+            name:'AV-2 ヴァリアント',
+            pilot:'不明',
+            nationality:'特車二課',
+            company:'篠原重工',
+            image:'./image/ヴァリアント.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%B4%E3%82%A1%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%88%28%E3%83%91%E3%83%88%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:13,
+            name:'97式TFV-EX クラブマン・ハイレッグ',
+            pilot:'不明',
+            nationality:'軍、武装警察',
+            company:'篠原重工',
+            image:'./image/クラブマン.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%AF%E3%83%A9%E3%83%96%E3%83%9E%E3%83%B3%E3%83%BB%E3%83%8F%E3%82%A4%E3%83%AC%E3%83%83%E3%82%B0'
+          },
+          {
+            id:14,
+            name:'ASUKA96MPL アスカ',
+            pilot:'第一小隊隊員',
+            nationality:'特車二課',
+            company:'	篠原重工',
+            image:'./image/アスカ.jpg',
+            url:'https://dic.pixiv.net/a/96%E5%BC%8F%E3%82%A2%E3%82%B9%E3%82%ABMPL'
+          },
+          {
+            id:15,
+            name:'ぴっけるくん',
+            pilot:'不明',
+            nationality:'山岳作業用レイバー',
+            company:'篠原重工',
+            image:'./image/ぴっけるくん.jpg',
+            url:'https://dic.pixiv.net/a/%E3%81%B4%E3%81%A3%E3%81%91%E3%82%8B%E3%81%8F%E3%82%93'
+          },
+          {
+            id:16,
+            name:'HAL-X10',
+            pilot:'HOS,AI',
+            nationality:'陸自の実験機(後に暴走)',
+            company:'篠原重工&菱井インダストリー(共同開発)',
+            image:'./image/HAL.jpg',
+            url:'https://dic.pixiv.net/a/HAL-X10',
+          },
+          {
+            id:17,
+            name:'TYPE-R13EX ファントム',
+            pilot:'遠隔操作',
+            nationality:'実験戦闘用レイバー',
+            company:'SEJ(シャフト・エンタープライズ・ジャパン)',
+            image:'./image/ファントム.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%95%E3%82%A1%E3%83%B3%E3%83%88%E3%83%A0%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:18,
+            name:'TYPE5Q/2C グラウ・ベア',
+            pilot:'SEE社員、武器商人、藤岡組長、大那組組長など',
+            nationality:'作業用、警備用',
+            company:'SEE(シャフト・エンタープライズ・ヨーロッパ)',
+            image:'./image/グラウ・ベア.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%B0%E3%83%A9%E3%82%A6%E3%83%BB%E3%83%99%E3%82%A2'
+          },
+          {
+            id:19,
+            name:'TYPE6Q/2C キュマイラ',
+            pilot:'SSS隊員、HSS警備員など',
+            nationality:'警備用',
+            company:'SEE(シャフト・エンタープライズ・ヨーロッパ)',
+            image:'./image/キュマイラ.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%AD%E3%83%A5%E3%83%9E%E3%82%A4%E3%83%A9%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:20,
+            name:'TYPE_SL-8 サイレン',
+            pilot:'不明',
+            nationality:'不明',
+            company:'SEE(シャフト・エンタープライズ・ヨーロッパ)',
+            image:'./image/サイレン.jpg',
+            url:'https://dic.pixiv.net/a/TYPE_SL-8%E3%82%B5%E3%82%A4%E3%83%AC%E3%83%B3'
+          },
+          {
+            id:21,
+            name:'TYPE-M5 エイブラハム',
+            pilot:'不明',
+            nationality:'軍用、民間(主にアメリカ)',
+            company:'SEUSA',
+            image:'./image/エイブラハム.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%A8%E3%82%A4%E3%83%96%E3%83%A9%E3%83%8F%E3%83%A0%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:22,
+            name:'レイバーX',
+            pilot:'祖父江',
+            nationality:'カスタムレイバー',
+            company:'祖父江モーターズ',
+            image:'./image/レイバーX.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%EF%BC%B8'
+          },
+          {
+            id:23,
+            name:'菱井HL-96 タイラント2000',
+            pilot:'作業員',
+            nationality:'作業用',
+            company:'	菱井インダストリー',
+            image:'./image/タイラント.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%BF%E3%82%A4%E3%83%A9%E3%83%B3%E3%83%882000'
+          },
+          {
+            id:24,
+            name:'菱井HL-97 ブルドッグ',
+            pilot:'作業員',
+            nationality:'作業用',
+            company:'菱井インダストリー',
+            image:'./image/ブルドック.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%96%E3%83%AB%E3%83%89%E3%83%83%E3%82%B0%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:25,
+            name:'菱井HL-98 ヘラクレス21',
+            pilot:'作業員',
+            nationality:'作業用',
+            company:'菱井インダストリー',
+            image:'./image/ヘラクレス.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%98%E3%83%A9%E3%82%AF%E3%83%AC%E3%82%B921'
+          },
+          {
+            id:26,
+            name:'菱井HL-99 レックス2500',
+            pilot:'イチハラタカアキ、作業員、テロリスト、窃盗犯',
+            nationality:'作業用',
+            company:'菱井インダストリー',
+            image:'./image/レックス.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%AC%E3%83%83%E3%82%AF%E3%82%B92500'
+          },
+          {
+            id:27,
+            name:'菱井ML-98 セルキーH10',
+            pilot:'作業員、青年団員、海上保安庁隊員',
+            nationality:'水中作業用',
+            company:'菱井インダストリー',
+            image:'./image/セルキー.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%BB%E3%83%AB%E3%82%AD%E3%83%BCH10'
+          },
+          {
+            id:28,
+            name:'CRL-98 パイロバスター',
+            pilot:'消防隊員',
+            nationality:'消防署',
+            company:'菱井インダストリー',
+            image:'./image/パイロバスター.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%91%E3%82%A4%E3%83%AD%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC'
+          },
+          {
+            id:29,
+            name:'菱井AL-97B サムソン',
+            pilot:'不破環生,自衛隊員',
+            nationality:'自衛隊',
+            company:'菱井インダストリー',
+            image:'./image/サムソン.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%B5%E3%83%A0%E3%82%BD%E3%83%B3%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:30,
+            name:'菱井AL-97B改 ハンニバル',
+            pilot:'自衛隊員',
+            nationality:'自衛隊',
+            company:'菱井インダストリー',
+            image:'./image/ハンニバル.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%8F%E3%83%B3%E3%83%8B%E3%83%90%E3%83%AB%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:31,
+            name:'ジャンゴ',
+            pilot:'作業員、テロリスト',
+            nationality:'作業用',
+            company:'菱井インダストリー',
+            image:'./image/ジャンゴ.jpg',
+            url:'https://dic.pixiv.net/a/%E3%82%B8%E3%83%A3%E3%83%B3%E3%82%B4%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          },
+          {
+            id:32,
+            name:'９８式多足戦闘指揮レイバー ラーダー',
+            pilot:'柘植行人,自衛隊員',
+            nationality:'自衛隊 レイバー部隊',
+            company:'不明',
+            image:'./image/ラーダー.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%A9%E3%83%BC%E3%83%80%E3%83%BC'
+          },
+          {
+            id:33,
+            name:'ハヌマーン',
+            pilot:'シャフト・エンタープライズ特殊部隊、密輸犯',
+            nationality:'シャフト関係者',
+            company:'シャフト・エンタープライズ、井野',
+            image:'./image/ハヌマーン.jpg',
+            url:'https://dic.pixiv.net/a/%E3%83%8F%E3%83%8C%E3%83%9E%E3%83%BC%E3%83%B3%28%E3%83%AC%E3%82%A4%E3%83%90%E3%83%BC%29'
+          }
+        ]
+      },
+      computed: {
+        filteredPlayers() {
+          return this.players.filter(player => {
+            return player.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || player.pilot.toLowerCase().includes(this.searchQuery.toLowerCase()) || player.nationality.toLowerCase().includes(this.searchQuery.toLowerCase()) || player.company.toLowerCase().includes(this.searchQuery.toLowerCase())
+          })
+        }
+      },
+      methods: {
+        goToUrl(url) {
+          window.location.href = url;
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>
