@@ -1,4 +1,4 @@
-# じゃんけんゲーム
+# じゃんけんゲーム　これはテストです by小澤
 class Janken():
 
     def action():
