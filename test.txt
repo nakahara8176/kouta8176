@@ -1,5 +1,4 @@
-This is test message
-
+定期的にフェッチもしくはプル操作を忘れずに!!
 
 こんにちわ 私の名前はAI3号
 hello
