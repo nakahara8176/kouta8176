@@ -1,0 +1,129 @@
+<!-- 昔作ったホームページサイトに、少しvue.jsを加えた -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="static/css/style2.css">
+  <title>自己紹介ページ</title>
+  <mata name="viewport" content="width=device-width">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+  <div style="line-height:1;" class="content">
+    <header>
+    <h1>自己紹介ページ</h1>
+    </header>
+     <div id="gazou">
+     <img src="static/img/画像/アイコン.png" alt="プロフィール画像" width="20%" height="20%">
+     </div>
+     <div id="app">
+      <h2>プロフィール</h2>
+     <p>氏名　小澤 和真(19)</p>
+     <p>性別　男</p>
+     <p>誕生日　2004年3月4日</p>
+     <p>趣味　ゲーム、音楽を聞く</p>
+    <h2>自己紹介</h2>
+     <p>  専門学校で情報ITを学んでます。プログラマーを目指して日々努力しています<br>٩(ˊ ᗜˋ*)و </p>
+     <section class="ranking">
+      <h2>好きな「音楽ジャンル」ランキング</h2>
+      <ol>
+        <li v-for="(item, index) in musicArray">{{index+1}}位 {{item}}</li><!-- for文 -->
+      </ol>
+    </section>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(num1){
+        document.querySelector('#gosite').addEventListener('click',function(num1){
+          var num2=document.querySelector('[name=target]').value;
+          if(num2!=="") location.href=num2;
+        });
+      });
+      </script>
+      <h3>私がよく使うリンク等が入っています↓</h3>
+      <select name="target">
+      <option value="">選択する</option>
+      <option value="http://typingx0.net/sushida/play.html">寿司打</option>
+      <option value="https://www.twitch.tv/">twich</option>
+      </select>
+       <input type="button" id="gosite" value="サイトに飛ぶ">
+       <p>飛びたいサイトを選択して、ボタンをクリックしてください</p>
+       <script>
+        function changeimg(num){
+        if(num == 0){
+        document.body.style.backgroundImage = "";
+        }else if(num == 1) {
+        document.body.style.backgroundImage = "url(static/img/背景画像/白い壁.jpg)";
+        }else if(num == 2) {
+        document.body.style.backgroundImage = "url(static/img/背景画像/バーチャル.png)";
+        }else if(num == 3) {
+        document.body.style.backgroundImage = "url(static/img/背景画像/オレンジ.png)";
+        }}
+
+        var lock = 0
+        var lock2 = 0
+        function unlock1(num1){
+        if(num1 == 0) {
+        var password = (prompt("ロックが掛かっています！4桁のパスコードを入力してください","0000"));
+        if(password == pass) {
+        document.body.style.backgroundImage = "url(static/img/背景画像/宇宙猫.jpeg)";
+        lock = 1
+        document.getElementById("lock").innerText = "🔓全てを悟った猫"
+        alert('「全てを悟った猫」がアンロックされました')
+        }else{
+          alert('パスコードが違います!')
+        }}else if(num1 == 2){
+            document.body.style.backgroundImage = "url(static/img/背景画像/宇宙猫.jpeg)";
+        }}
+
+        function addZero(value){
+        if(value < 10) {
+          value = '000' + value;
+        }else if(value < 100) {
+          value = '00' + value;
+        }else if(value < 1000) {
+          value = '0' + value;
+        }else if(value < 10000) {
+          value = '' + value;
+        }
+          return value;
+        }
+
+      </script>
+       <div id = radiobtn>
+        <br><h3>背景変更ボタン↓</h3>
+         <input type="radio" name="bgradio" value="one" id="radio_0" checked onclick="changeimg(0)"><label for="radio_0">背景無し</label>
+         <input type="radio" name="bgradio" value="two" id="radio_1" onclick="changeimg(1)"><label for="radio_1">白い壁</label>
+         <input type="radio" name="bgradio" value="three" id="radio_2" onclick="changeimg(2)"><label for="radio_2">バーチャル</label>
+         <input type="radio" name="bgradio" value="four" id="radio_3" onclick="changeimg(3)"><label for="radio_3">オレンジ</label>
+         <input type="radio" name="bgradio" value="five" id="radio_4" onclick="unlock1(lock * 2)"><label for="radio_4"><div id="lock">🔒背景4</div></label>
+       </div>
+      </div>
+     </div>
+     <div id="btngazou">
+      <button type=“button” onclick="location.href='#'">TOP</button>
+     <div id = hon>
+     <span onClick="document.all.item('moji1').style.visibility='visible'">
+      <a href="#"><img src="static/img/画像/本.png" alt="本" width="100%" height="100%" onclick="this.src='static/img/画像/開いた本.png'"></a>
+      </span>
+      <div ID="moji1" style="visibility:hidden;">
+        <script>
+        var pass = Math.floor(Math.random()*10000)
+        pass = addZero(pass);
+        document.write(pass);
+
+        // vue.js 
+        new Vue({
+          el: '#app',
+				  data: {
+				  	musicArray: ['洋楽','アニメ','J-pop']
+				  }
+			  })
+        </script>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+</body>
+</html>

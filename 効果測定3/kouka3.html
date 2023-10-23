@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>効果測定3</title>
+    <link rel="stylesheet" href="./static/css/style.css">
+    <script src=
+      "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js">
+    </script>
+  </head>
+  
+  <body>
+    <div id="app">
+      <div class = "menu_left">
+        <h1><nobr>採掘&戦闘RPG</nobr></h1>
+        <input v-model="UserName_before" v-if="isShow" placeholder="ユーザー名(11文字未満)">
+        <button v-on:click="decision()" v-if="isShow">決定</button>
+        <div class="user_name" style="font-size: 20px;"><b>{{ UserName[0] }}</b></div>
+      </div>
+      <div class = "power">
+        <b>攻撃ボーナス:{{ power }}</b>
+      </div>
+      <div class = "menu_right">
+        <button v-on:click="redirectToMypage()">私の自己紹介ページへ飛ぶ</button>
+      </div>
+      <div id="coin"><img src="static/img/基本画像/coin2.png"  draggable="false"></div>
+      <div id="coinvalue"><p>{{ coin }}</p></div>
+      <p id="book"><a href="#"><img v-bind:src="bookSrc" v-on:click = "bookOpen()"  draggable="false"></a></p>
+      <p id="weapon_text">装備スロット(クリックで装備)</p>
+      <!-- 装備リスト用のテーブル -->
+      <table id="weapon_list" border="1">
+        <tr>
+          <!-- 装備1 -->
+          <td id="cell1" @dragover.prevent @drop="swapImages(0)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[0]" width="50" height="50" @click="applyStyle('1', soubiList[0])" draggable="true" @dragstart="dragIndex = 0" @mouseover="soubi_name_change(soubiList[0])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備2 -->
+          <td id="cell2" @dragover.prevent @drop="swapImages(1)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[1]" width="50" height="50" @click="applyStyle('2', soubiList[1])" draggable="true" @dragstart="dragIndex = 1" @mouseover="soubi_name_change(soubiList[1])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備3 -->
+          <td id="cell3" @dragover.prevent @drop="swapImages(2)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[2]" width="50" height="50" @click="applyStyle('3', soubiList[2])" draggable="true" @dragstart="dragIndex = 2" @mouseover="soubi_name_change(soubiList[2])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備4 -->
+          <td id="cell4" @dragover.prevent @drop="swapImages(3)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[3]" width="50" height="50" @click="applyStyle('4', soubiList[3])" draggable="true" @dragstart="dragIndex = 3" @mouseover="soubi_name_change(soubiList[3])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備5 -->
+          <td id="cell5" @dragover.prevent @drop="swapImages(4)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[4]" width="50" height="50" @click="applyStyle('5', soubiList[4])" draggable="true" @dragstart="dragIndex = 4" @mouseover="soubi_name_change(soubiList[4])" @mouseleave="soubi_name_change()"></a>
+          </td>
+        </tr>
+        <tr>
+          <!-- 装備6 -->
+          <td id="cell6" @dragover.prevent @drop="swapImages(5)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[5]" width="50" height="50" @click="applyStyle('6', soubiList[5])" draggable="true" @dragstart="dragIndex = 5" @mouseover="soubi_name_change(soubiList[5])" @mouseleave="soubi_name_change()"></a>
+          </td>
+          
+          <!-- 装備7 -->
+          <td id="cell7" @dragover.prevent @drop="swapImages(6)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[6]" width="50" height="50" @click="applyStyle('7', soubiList[6])" draggable="true" @dragstart="dragIndex = 6" @mouseover="soubi_name_change(soubiList[6])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備8 -->
+          <td id="cell8" @dragover.prevent @drop="swapImages(7)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[7]" width="50" height="50" @click="applyStyle('8', soubiList[7])" draggable="true" @dragstart="dragIndex = 7" @mouseover="soubi_name_change(soubiList[7])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備9 -->
+          <td id="cell9" @dragover.prevent @drop="swapImages(8)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[8]" width="50" height="50" @click="applyStyle('9', soubiList[8])" draggable="true" @dragstart="dragIndex = 8" @mouseover="soubi_name_change(soubiList[8])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備10 -->
+          <td id="cell10" @dragover.prevent @drop="swapImages(9)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[9]" width="50" height="50" @click="applyStyle('10', soubiList[9])" draggable="true" @dragstart="dragIndex = 9" @mouseover="soubi_name_change(soubiList[9])" @mouseleave="soubi_name_change()"></a>
+          </td>
+        </tr>
+        <tr>
+          <!-- 装備11 -->
+          <td id="cell11" @dragover.prevent @drop="swapImages(10)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[10]" width="50" height="50" @click="applyStyle('11', soubiList[10])" draggable="true" @dragstart="dragIndex = 10" @mouseover="soubi_name_change(soubiList[10])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備12 -->
+          <td id="cell12" @dragover.prevent @drop="swapImages(11)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[11]" width="50" height="50" @click="applyStyle('12', soubiList[11])" draggable="true" @dragstart="dragIndex = 11" @mouseover="soubi_name_change(soubiList[11])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備13-->
+          <td id="cell13" @dragover.prevent @drop="swapImages(12)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[12]" width="50" height="50" @click="applyStyle('13', soubiList[12])" draggable="true" @dragstart="dragIndex = 12" @mouseover="soubi_name_change(soubiList[12])" @mouseleave="soubi_name_change()"></a>
+          </td>
+
+          <!-- 装備14 -->
+          <td id="cell14" @dragover.prevent @drop="swapImages(13)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[13]" width="50" height="50" @click="applyStyle('14', soubiList[13])" draggable="true" @dragstart="dragIndex = 13" @mouseover="soubi_name_change(soubiList[13])" @mouseleave="soubi_name_change()"></a>
+          </td>
+          <!-- 装備15 -->
+          <td id="cell15" @dragover.prevent @drop="swapImages(14)">
+            <a v-bind:href="soubi_name"><img v-bind:src="soubiList[14]" width="50" height="50" @click="applyStyle('15', soubiList[14])" draggable="true" @dragstart="dragIndex = 14" @mouseover="soubi_name_change(soubiList[14])" @mouseleave="soubi_name_change()"></a>
+          </td>
+        </tr>
+      </table>
+
+
+
+      <!-- 鉱石採掘 -->
+      <script>
+
+      //採掘した時の表示など
+      var ore_hp
+      var now_hp
+      var ore_id
+      var coin_increase = 0
+      var random_ore = Math.floor(Math.random()*100);
+      function mining() {
+        if (now_hp > 0) {
+          now_hp = now_hp - app.mining_power
+          if (now_hp > 0) {
+            switch (ore_id) {
+              case 1:
+                  app.coin += 1 * app.gain_coin
+                  coin_increase += 1 * app.gain_coin
+              break;
+              case 2:
+                  app.coin += 2 * app.gain_coin
+                  coin_increase += 2 * app.gain_coin
+              break;
+              case 3:
+                  app.coin += 3 * app.gain_coin
+                  coin_increase += 3 * app.gain_coin
+              break;
+              case 4:
+                  app.coin += 4 * app.gain_coin
+                  coin_increase += 4 * app.gain_coin
+              break;
+              case 5:
+                  app.coin += 5 * app.gain_coin
+                  coin_increase += 5 * app.gain_coin
+              break;
+              case 6:
+                  app.coin += 6 * app.gain_coin
+                  coin_increase += 6 * app.gain_coin
+              break;
+              case 7:
+                  app.coin += 7 * app.gain_coin
+                  coin_increase += 7 * app.gain_coin
+              break;
+              case 8:
+                  app.coin += 8 * app.gain_coin
+                  coin_increase += 8 * app.gain_coin
+              break;
+            }
+              document.getElementById("coinvalue").innerHTML = '<p>' + app.formatcoin(app.coin) + '</p>'
+              document.getElementById("coin_increase").innerHTML = '<p>+' + coin_increase + '</p>'
+              coin_increase = 0
+              document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+              } else {
+              now_hp = 0
+              document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+              switch (ore_id) {
+                  case 1:
+                      app.coin += 5 * app.gain_coin
+                      coin_increase += 5 * app.gain_coin
+                  break;
+                  case 2:
+                      app.coin += 7 * app.gain_coin
+                      coin_increase += 7 * app.gain_coin
+                  break;
+                  case 3:
+                      app.coin += 9 * app.gain_coin
+                      coin_increase += 9 * app.gain_coin
+                  break;
+                  case 4:
+                      app.coin += 11 * app.gain_coin
+                      coin_increase += 11 * app.gain_coin
+                  break;
+                  case 5:
+                      app.coin += 13 * app.gain_coin
+                      coin_increase += 13 * app.gain_coin
+                  break;
+                  case 6:
+                      app.coin += 15 * app.gain_coin
+                      coin_increase += 15 * app.gain_coin
+                  break;
+                  case 7:
+                      app.coin += 17 * app.gain_coin
+                      coin_increase += 17 * app.gain_coin
+                  break;
+                  case 8:
+                      app.coin += 20 * app.gain_coin
+                      coin_increase += 20 * app.gain_coin
+                  break;
+              }
+              document.getElementById("coinvalue").innerHTML = '<p>' + app.formatcoin(app.coin) + '</p>'
+              document.getElementById("coin_increase").innerHTML = '<p>+' + coin_increase + '</p>'
+              coin_increase = 0
+              window.setTimeout(ore_update, 100);
+          }}}
+      //画像切り替え
+          function ore_update() {
+              random_ore = Math.floor(Math.random()*100);
+              if (random_ore <= 0) {
+                      oreimg.src = "static/img/鉱石/レジェンド.png"
+                      ore_hp = 2000
+                      now_hp = ore_hp
+                      ore_id = 8
+                      document.getElementById("ore_name").innerHTML = "<p>レジェンド鉱石</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 2) {
+                      oreimg.src = "static/img/鉱石/ブラックダイヤモンド.png"
+                      ore_hp = 800
+                      now_hp = ore_hp
+                      ore_id = 7
+                      document.getElementById("ore_name").innerHTML = "<p>ブラックダイヤモンド</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 6) {
+                      oreimg.src = "static/img/鉱石/金.png"
+                      ore_hp = 400
+                      now_hp = ore_hp
+                      ore_id = 6
+                      document.getElementById("ore_name").innerHTML = "<p>金鉱石</p></p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 12) {
+                      oreimg.src = "static/img/鉱石/銀.png"
+                      ore_hp = 200
+                      now_hp = ore_hp
+                      ore_id = 5
+                      document.getElementById("ore_name").innerHTML = "<p>銀鉱石</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 20) {
+                      oreimg.src = "static/img/鉱石/エメラルド.png"
+                      ore_hp = 150
+                      now_hp = ore_hp
+                      ore_id = 4
+                      document.getElementById("ore_name").innerHTML = "<p>エメラルド</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 30) {
+                      oreimg.src = "static/img/鉱石/ルビー.png"
+                      ore_hp = 100
+                      now_hp = ore_hp
+                      ore_id = 3
+                      document.getElementById("ore_name").innerHTML = "<p>ルビー</p>"                    
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 45) {
+                      oreimg.src = "static/img/鉱石/アメジスト.png"
+                      ore_hp = 50
+                      now_hp = ore_hp
+                      ore_id = 2
+                      document.getElementById("ore_name").innerHTML = "<p>アメジスト</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  } else if (random_ore <= 100) {
+                      oreimg.src = "static/img/鉱石/サファイア.png"
+                      ore_hp = 20
+                      now_hp = ore_hp
+                      ore_id = 1
+                      document.getElementById("ore_name").innerHTML = "<p>サファイア</p>"
+                      document.getElementById("ore_hp").innerHTML = '<p>' + now_hp + '/' + ore_hp + '</p>'
+                  }
+              }
+          //画像切り替え終了
+      //採掘した時の表示等、終了
+      document.write('<div class="mining_text"><p>クリックして採掘!</p></div>')
+          if (random_ore <= 0 ) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/レジェンド.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>レジェンド鉱石</p></div>')
+              ore_hp = 2000
+              now_hp = ore_hp
+              ore_id = 8
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 2) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/ブラックダイヤモンド.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>ブラックダイヤモンド</p></div>')
+              ore_hp = 800
+              now_hp = ore_hp
+              ore_id = 7
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 6) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/金.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>金鉱石</p></div>')
+              ore_hp = 400
+              now_hp = ore_hp
+              ore_id = 6
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 12) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/銀.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>銀鉱石</p></div>')
+              ore_hp = 200
+              now_hp = ore_hp
+              ore_id = 5
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 20) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/エメラルド.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>エメラルド</p></div>')
+              ore_hp = 150
+              now_hp = ore_hp
+              ore_id = 4
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 30) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/ルビー.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>ルビー</p></div>')
+              ore_hp = 100
+              now_hp = ore_hp
+              ore_id = 3
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 45) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/アメジスト.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>アメジスト</p></div>')
+              ore_hp = 50
+              now_hp = ore_hp
+              ore_id = 2
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          } else if (random_ore <= 100) {
+              document.write('<div class="allore"><a href="#"><img id="oreimg" src="static/img/鉱石/サファイア.png" width="10%" height="10%" draggable="false" onclick="mining()"></a></div>')
+              document.write('<div id="ore_name"><p>サファイア</p></div>')
+              ore_hp = 20
+              now_hp = ore_hp
+              ore_id = 1
+              document.write('<div id="ore_hp"><p>'+ now_hp + '/' + ore_hp + '</p></div>')
+          }
+          document.write('<div id=coin_increase><p>+' + coin_increase + '</p></div>');
+      </script>
+
+      <!-- モンスター討伐 -->
+      <script>
+
+      //攻撃した時の表示など
+      var enemy_hp
+      var enemy_now_hp
+      var enemy_id
+      var damage_increase = 0
+      var random_enemy = Math.floor(Math.random()*1000); //出現する敵の変数
+      var key_drop = 0 // 鍵ドロップの変数
+      var weapon_drop = 0 //武器ドロップの変数
+      function attack() {
+        if (enemy_now_hp > 0) {
+          enemy_now_hp = Math.floor(enemy_now_hp - app.attack)
+          if (enemy_now_hp > 0) { // 敵を攻撃したときの表示
+            damage_increase = app.attack
+            document.getElementById("damage_increase").innerHTML = '<p>' + damage_increase + 'ダメージ</p>'
+            damage_increase = 0
+            document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+          } else {//敵を倒した場合
+            enemy_now_hp = 0
+            document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+            key_drop = Math.floor(Math.random()*100);
+            weapon_drop = Math.floor(Math.random()*1000);
+            switch (enemy_id) {
+                  case 0: // 棒人間
+                    if (key_drop <= 0) { //宝箱の鍵のドロップ率1%
+                      app.drop(0)
+                    }
+                  break;
+                  case 1: // 棒人間ver2
+                    if (key_drop <= 0) { //宝箱の鍵のドロップ率1%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 79) { // 双剣のドロップ率8%
+                      app.drop(2)
+                    }
+                  break;
+                  case 2:// 棒人間ver3
+                    if (key_drop <= 1) { //宝箱の鍵のドロップ率2%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 84) { // 拳のドロップ率8.5%
+                      app.drop(3)
+                    }
+                  break;
+                  case 3:// 名高いウイルス
+                    if (key_drop <= 1) { //宝箱の鍵のドロップ率2%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 99) {// ^^のドロップ率10%
+                      app.drop(4)
+                    }
+                  break;
+                  case 4:// 謎の敵
+                    if (key_drop <= 3) { //宝箱の鍵のドロップ率4%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 124) {//ロケットランチャーのドロップ率12.5%
+                      app.drop(5)
+                    }
+                  break;
+                  case 5:// 死神ver1
+                    if (key_drop <= 19) { //宝箱の鍵のドロップ率20%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 19) { //死神の鎌のドロップ率2%
+                      app.drop(7)
+                    }
+                  break;
+                  case 6:// 筋肉の悪魔
+                    if (key_drop <= 11) { //宝箱の鍵のドロップ率12%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 159) { // チェーンソーのドロップ率16%
+                      app.drop(6)
+                    }
+                  break;
+                  case 7:// 死神ver2
+                  if (key_drop <= 32) { //宝箱の鍵のドロップ率33%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 9) { //竜神の剣のドロップ率1%
+                      app.drop(8)
+                    }else if(weapon_drop <= 137){ //死神の鎌のドロップ率12%
+                      app.drop(7)
+                    }
+                  break;
+                  case 8:// 死神ver3
+                  if (key_drop <= 65) {//宝箱の鍵のドロップ率33%
+                      app.drop(0)
+                    }
+                    if (weapon_drop <= 1) { //風魔法のドロップ率0.2%
+                      app.drop(9)
+                    }else if(weapon_drop <= 36){ //龍神の剣のドロップ率3.5%
+                      app.drop(8)
+                    }else if(weapon_drop <= 206){ //死神の鎌のドロップ率17%
+                      app.drop(7)
+                    }
+                  break;
+                  case 9:// 敵更新用
+                  null
+                  break;
+              }
+            damage_increase = app.attack
+            document.getElementById("damage_increase").innerHTML = '<p>' + damage_increase + 'ダメージ</p>'
+            damage_increase = 0
+            window.setTimeout(enemy_update, 100);
+          }}}
+
+      //画像切り替え
+          function enemy_update() {
+              random_enemy = Math.floor(Math.random()*1000);
+              if (random_enemy <= 4) {
+                      enemyimg.src = "static/img/敵/死神ver3.png"
+                      enemy_hp = 12000
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 8
+                      document.getElementById("enemy_name").innerHTML = "<p>死神ver3</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 12) {
+                      enemyimg.src = "static/img/敵/死神ver2.png"
+                      enemy_hp = 9000
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 7
+                      document.getElementById("enemy_name").innerHTML = "<p>死神ver2</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 25) {
+                      enemyimg.src = "static/img/敵/筋肉の悪魔.png"
+                      enemy_hp = 8500
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 6
+                      document.getElementById("enemy_name").innerHTML = "<p>筋肉の悪魔</p></p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 59) {
+                      enemyimg.src = "static/img/敵/死神.gif"
+                      enemy_hp = 5000
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 5
+                      document.getElementById("enemy_name").innerHTML = "<p>死神</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 109) {
+                      enemyimg.src = "static/img/敵/自爆.gif"
+                      enemy_hp = 3000
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 4
+                      document.getElementById("enemy_name").innerHTML = "<p>謎の敵</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 169) {
+                      enemyimg.src = "static/img/敵/例のウイルス.gif"
+                      enemy_hp = 1500
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 3
+                      document.getElementById("enemy_name").innerHTML = "<p>名高いウイルス</p>"                    
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 300) {
+                      enemyimg.src = "static/img/敵/棒人間3.png"
+                      enemy_hp = 900
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 2
+                      document.getElementById("enemy_name").innerHTML = "<p>棒人間ver3</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 500) {
+                      enemyimg.src = "static/img/敵/棒人間2.png"
+                      enemy_hp = 300
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 1
+                      document.getElementById("enemy_name").innerHTML = "<p>棒人間ver2</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  } else if (random_enemy <= 1000) {
+                      enemyimg.src = "static/img/敵/棒人間.png"
+                      enemy_hp = 100
+                      enemy_now_hp = enemy_hp
+                      enemy_id = 0
+                      document.getElementById("enemy_name").innerHTML = "<p>棒人間</p>"
+                      document.getElementById("enemy_hp").innerHTML = '<p>' + enemy_now_hp + '/' + enemy_hp + '</p>'
+                  }
+              }
+          //画像切り替え終了
+
+          function update_push() {
+            enemy_now_hp = 0
+            enemy_id = 9
+            attack()
+            enemy_update()
+          }
+
+      document.write('<div class="battle_text"><p>クリックして討伐!</p></div>')
+          if (random_enemy <= 4) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/死神ver3.png" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>死神ver3</p></div>')
+              enemy_hp = 11500
+              enemy_now_hp = enemy_hp
+              enemy_id = 8
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 12) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/死神ver2.png" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>死神ver2</p></div>')
+              enemy_hp = 9000
+              enemy_now_hp = enemy_hp
+              enemy_id = 7
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 25) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/筋肉の悪魔.png" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>筋肉の悪魔</p></div>')
+              enemy_hp = 8500
+              enemy_now_hp = enemy_hp
+              enemy_id = 6
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 59) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/死神.gif" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>死神</p></div>')
+              enemy_hp = 5000
+              enemy_now_hp = enemy_hp
+              enemy_id = 5
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 109) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/自爆.gif" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>謎の敵</p></div>')
+              enemy_hp = 3000
+              enemy_now_hp = enemy_hp
+              enemy_id = 4
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 169) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/例のウイルス.gif" width="150" height="150" draggable="false" onclick="attack()"  draggable="false"></a></div>')
+              document.write('<div id="enemy_name"><p>名高いウイルス</p></div>')
+              enemy_hp = 1500
+              enemy_now_hp = enemy_hp
+              enemy_id = 3
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 300) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/棒人間3.png" width="150" height="150" draggable="false" onclick="attack()"></a></div>')
+              document.write('<div id="enemy_name"><p>棒人間ver3</p></div>')
+              enemy_hp = 900
+              enemy_now_hp = enemy_hp
+              enemy_id = 2
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 500) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/棒人間2.png" width="150" height="150" draggable="false" onclick="attack()"></a></div>')
+              document.write('<div id="enemy_name"><p>棒人間ver2</p></div>')
+              enemy_hp = 300
+              enemy_now_hp = enemy_hp
+              enemy_id = 1
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          } else if (random_enemy <= 1500) {
+              document.write('<div class="allenemy"><a href="#"><img id="enemyimg" src="static/img/敵/棒人間.png" width="150" height="150" draggable="false" onclick="attack()"></a></div>')
+              document.write('<div id="enemy_name"><p>棒人間</p></div>')
+              enemy_hp = 100
+              enemy_now_hp = enemy_hp
+              enemy_id = 0
+              document.write('<div id="enemy_hp"><p>'+ enemy_now_hp + '/' + enemy_hp + '</p></div>')
+          }
+          document.write('<div id=damage_increase><p>' + damage_increase + 'ダメージ</p></div>');
+      </script>
+
+      <div id = "remove_item">
+        <input v-model.number="removeNumber" placeholder="番号">
+        <button v-on:click="removesoubi()">破棄</button>
+      </div>
+
+      <!-- 敵を更新するボタン -->
+      <button id="enemy_update" onclick = "update_push()">敵更新</button>
+
+      <!-- 宝箱 -->
+      <a href="#"><img id = chest src="static/img/基本画像/宝箱.gif" width="180" height="180" v-on:click="open_chest()"></a>
+
+      <!-- ショップ -->
+      <div class = "shop">
+      <b style="font-size: 20px;">shop</b>
+      <table id="shop" border="1">
+        <tr>
+          <td>
+            <p>石のピッケル</p><button v-on:click="purchasecheck(0)">購入</button>
+          </td>
+
+          <td>
+            <p>銅のピッケル</p><button v-on:click="purchasecheck(1)">購入</button>
+          </td>
+
+          <td>
+            <p>鉄のピッケル</p><button v-on:click="purchasecheck(2)">購入</button>
+          </td>
+
+          <td>
+            <p>銀のピッケル</p><button v-on:click="purchasecheck(3)">購入</button>
+          </td>
+
+          <td>
+            <p>金のピッケル</p><button v-on:click="purchasecheck(4)">購入</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>プラチナのピッケル</p><button v-on:click="purchasecheck(5)">購入</button>
+          </td>
+
+          <td>
+            <p>ダイヤのピッケル</p><button v-on:click="purchasecheck(6)">購入</button>
+          </td>
+
+          <td>
+            <p>ブラックダイヤのピッケル</p><button v-on:click="purchasecheck(7)">購入</button>
+          </td>
+
+          <td>
+            <p>レジェンドピッケル</p><button v-on:click="purchasecheck(8)">購入</button>
+          </td>
+
+          <td>
+            <p>力がみなぎる薬</p><button v-on:click="purchasecheck(9)">購入</button>
+          </td>
+        </tr>
+      </table>
+      </div>
+
+      <!-- 強い装備を呼び出すぼたん -->
+      <button id = "Bestsoubi" v-on:click="best_soubi()">最強装備セットを呼び出す</button>
+
+      <script>
+      //説明書の関数
+      function setumei() {
+        alert("◆説明◆\nこのサイトでは鉱石採掘やモンスター討伐ができます。最強を目指して頑張ろう！\n\n◇装備について… 右側の装備スロットでは、今までに集めた装備が表示されます。クリックすると装備でき、装備名がリンクに記載されます。また、装備をドラッグドロップして別のスロットに移動させることもできます。\n装備の破棄については、スロット下の入力欄に1(左上)～15(右下)の数値を入力し、破棄ボタンを押してください。\n\n◇鉱石採掘について… 左にある鉱石は、ピッケルを装備してクリックするとお金が貰え、破壊時には更に多くのお金が貰えます。ピッケルのレア度や鉱石の種類よって採掘力や、獲得金額が増えます。\n\n◇モンスター討伐について… 武器を装備することでモンスターを攻撃することができます。倒すと確率で武器や宝箱の鍵がドロップします。\n\n◇ショップについて… ショップでは集めたお金で買い物ができます。\n\n◇宝箱について… 右下にある宝箱は、宝箱の鍵を装備してクリックすると開けることができます。\n\n■注意点■\nサイトを更新すると最初からになります。ユーザー名は飾りです。");
+      }
+
+      var app = new Vue({
+        el: '#app',
+        data: {
+          itemList: [],
+          UserName: [],
+          UserName_before: '',
+          my_page: '',
+          isShow: true,
+          bookSrc: 'static/img/基本画像/説明書.png',
+          mining_power: 0, // 採掘力
+          gain_coin: 0, // 獲得コイン量
+          power: 1, // 攻撃力
+          attack: 0, // 最終的な攻撃力
+          coin: 0, // コインの量
+          soubi_name: '#装備なし',
+          removeNumber: null,
+          dragIndex: null,
+          key: false,
+
+          //表示させる画像(装備スロット)
+          soubiList: ['static/img/装備リスト/木のピッケル.png','static/img/装備リスト/木の棒.png','static/img/装備リスト/装備無し.png',
+                    'static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png',
+                    'static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png',
+                    'static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png',
+                    'static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png','static/img/装備リスト/装備無し.png',],
+
+          //すべてのアイテム画像リスト
+          allitem: ['static/img/装備リスト/宝箱の鍵.png','static/img/装備リスト/木の棒.png','static/img/装備リスト/双剣.png','static/img/装備リスト/拳.png',
+                    'static/img/装備リスト/^^.gif','static/img/装備リスト/ロケットランチャー.png','static/img/装備リスト/チェーンソー.png',
+                    'static/img/装備リスト/死神の鎌.png','static/img/装備リスト/竜神の剣.gif','static/img/装備リスト/風魔法.gif','static/img/装備リスト/雷魔法.gif',
+                    'static/img/装備リスト/木のピッケル.png','static/img/装備リスト/石のピッケル.png','static/img/装備リスト/銅のピッケル.png',
+                    'static/img/装備リスト/鉄のピッケル.png','static/img/装備リスト/銀のピッケル.png','static/img/装備リスト/金のピッケル.png',
+                    'static/img/装備リスト/プラチナのピッケル.png','static/img/装備リスト/ダイヤのピッケル.png',
+                    'static/img/装備リスト/ブラックダイヤのピッケル.png','static/img/装備リスト/レジェンドピッケル.png','static/img/装備リスト/力がみなぎる薬.png'],
+
+          //shopの値段
+          need_coin: [100, 200, 500, 1300, 3000, 9000, 20000, 50000, 99999, 15000]
+
+        },
+        methods: {
+          bookOpen: function() {
+            window.setTimeout(setumei, 30);
+          },
+
+          //自己紹介サイトへ移動させる関数
+          redirectToMypage() {
+            window.location.href = 'ホームページ.html';
+          },
+
+          decision: function() {
+            // 文字が入力されてなければ通さない
+            if (this.UserName_before.length != 0) {
+              // 文字の長さが11文字以上なら通さない
+              if (this.UserName_before.length <= 10) {
+                this.UserName.push(this.UserName_before)
+                this.isShow = false
+              } else {
+                alert('◆11文字未満のユーザー名にしてください◆')
+              }} else {
+                alert("◆ユーザー名を入力してください◆");
+              }
+					},
+
+          // 現在のお金の単位を変換するメソッド
+          formatcoin: function(value) {
+            if (value >= 1000000) {
+              return (value / 1000000).toFixed(1) + 'm' // 100万を超えたら◯.◯m
+            } else if (value >= 10000) {
+              return (value / 1000).toFixed(1) + 'k' // 1万を超えたら◯.◯k
+            } else {
+              return value
+            }
+          },
+
+          //画像をクリックしたときの関数
+          applyStyle(id, gazou) {
+            // 画像をクリックしたときに適用するCSSスタイルを定義する
+            const equip_on = {
+              border: "1px solid red",
+            };
+            const equip_off = {
+              border: "1px solid black",
+            };
+            
+            // スタイルを適用する要素を取得し、定義したスタイルを適用する
+            const img = document.querySelector('#cell'+id);
+            Object.assign(img.style, equip_on);
+
+            //引数のid以外のstyleを黒枠にする
+            for (let i = Number(id)-1; i > 0; i--) {
+              const img = document.querySelector('#cell'+String(i));
+              Object.assign(img.style, equip_off);
+            }
+            for (let i = Number(id)+1; i < 16; i++) {
+              const img = document.querySelector('#cell'+String(i));
+              Object.assign(img.style, equip_off);
+            }
+
+            // gazouの'static/img/装備リスト/'、'.png'、'.gif'を削除する
+            var soubi = gazou.replace('static/img/装備リスト/', '');
+            soubi = soubi.replace('.png', '');
+            soubi = soubi.replace('.gif', '');
+
+            // クリックした画像(装備)を判別し、それぞれで処理を変更する
+            switch(soubi) {
+            case '装備無し':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 0
+              this.key = false
+            break;
+            case '木のピッケル':
+              this.mining_power = 1
+              this.gain_coin = 1
+              this.attack = 0
+              this.key = false
+            break;
+            case '石のピッケル':
+              this.mining_power = 3
+              this.gain_coin = 2
+              this.attack = 0
+              this.key = false
+            break;
+            case '銅のピッケル':
+              this.mining_power = 6
+              this.gain_coin = 3
+              this.attack = 0
+              this.key = false
+            break;
+            case '鉄のピッケル':
+              this.mining_power = 10
+              this.gain_coin = 5
+              this.attack = 0
+              this.key = false
+            break;
+            case '銀のピッケル':
+              this.mining_power = 15
+              this.gain_coin = 6
+              this.attack = 0
+              this.key = false
+            break;
+            case '金のピッケル':
+              this.mining_power = 22
+              this.gain_coin = 8
+              this.attack = 0
+              this.key = false
+            break;
+            case 'プラチナのピッケル':
+              this.mining_power = 30
+              this.gain_coin = 12
+              this.attack = 0
+              this.key = false
+            break;
+            case 'ダイヤのピッケル':
+              this.mining_power = 43
+              this.gain_coin = 18
+              this.attack = 0
+              this.key = false
+            break;
+            case 'ブラックダイヤのピッケル':
+              this.mining_power = 50
+              this.gain_coin = 25
+              this.attack = 0
+              this.key = false
+            break;
+            case 'レジェンドピッケル':
+              this.mining_power = 100
+              this.gain_coin = 50
+              this.attack = 0
+              this.key = false
+            break;
+            case '宝箱の鍵':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 0
+              this.key = true
+            break;
+            case '木の棒':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 3 * this.power
+              this.key = false
+            break;
+            case '双剣':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 12 * this.power
+              this.key = false
+            break;
+            case '拳':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 36 * this.power
+              this.key = false
+            break;
+            case 'チェーンソー':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 83 * this.power
+              this.key = false
+            break;
+            case '^^':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 122 * this.power
+              this.key = false
+            break;
+            case 'ロケットランチャー':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 150 * this.power
+              this.key = false
+            break;
+            case '死神の鎌':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 200 * this.power
+              this.key = false
+            break;
+            case '竜神の剣':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 600 * this.power
+              this.key = false
+            break;
+            case '風魔法':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 1200 * this.power
+              this.key = false
+            break;
+            case '雷魔法':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 99999 * this.power
+              this.key = false
+            break;
+            case '力がみなぎる薬':
+              this.mining_power = 0
+              this.gain_coin = 0
+              this.attack = 0
+              this.key = false
+              var res = confirm("◆力がみなぎる薬を使用しますか？\n◇使用した場合、攻撃ボーナスが0.25上昇します。");
+              if( res == true ) { 
+                for (let i = 0; i < this.soubiList.length; i++) {
+                  if (this.soubiList[i] === 'static/img/装備リスト/力がみなぎる薬.png') {// 一番順番が早い力がみなぎる薬を空に
+                    this.soubiList[i] = 'static/img/装備リスト/装備無し.png';
+                    this.power += 0.25;
+                    break;
+                  }
+                }
+              }
+            break;
+            }
+          },
+          drop: function(item_id) {//アイテムドロップの関数
+            for (let i = 0; i < this.soubiList.length; i++) {
+              if (this.soubiList[i] === 'static/img/装備リスト/装備無し.png') {
+                this.soubiList[i] = this.allitem[item_id];
+                this.$forceUpdate() // 再描画
+                break;
+              }
+            }
+          },
+
+          // soubi_name(リンク先の名前)を引数の画像の名前に変更
+          soubi_name_change(gazou) {
+            var name = gazou.replace('static/img/装備リスト/', '');
+            name = name.replace('.png', '');
+            name = name.replace('.gif', '');
+            this.soubi_name = "#" + name
+          },
+
+          swapImages(index) {
+            if (index !== this.dragIndex) {
+              const draggedImage = this.soubiList[this.dragIndex];
+              this.soubiList.splice(this.dragIndex, 1);
+              this.soubiList.splice(index, 0, draggedImage);
+            }
+          },
+          purchasecheck(item_id) {
+            var soubi = this.allitem[item_id+12].replace('static/img/装備リスト/', '');
+            soubi = soubi.replace('.png', '');
+            soubi = soubi.replace('.gif', '');
+            var res = confirm("◆"+ soubi+"\n◇"+ this.need_coin[item_id]+"コイン");
+            if( res == true ) { 
+              if (this.coin >= this.need_coin[item_id]) {
+                for (let i = 0; i < this.soubiList.length; i++) { // 装備スロットに空きがあるか確認
+                  if (this.soubiList[i] === 'static/img/装備リスト/装備無し.png') {
+                    this.coin -= this.need_coin[item_id]
+                    document.getElementById("coinvalue").innerHTML = '<p>' + app.formatcoin(app.coin) + '</p>' // お金の表示を更新
+                    alert(soubi+"を購入しました。");
+                    this.soubiList[i] = this.allitem[item_id+12];
+                    this.$forceUpdate() //再描画
+                    exit;
+                  }
+                }
+                alert('◆装備スロットに空きスペースがありません。')
+              } else {
+                alert("◆お金が足りません。")
+              }
+            }
+          },
+          removesoubi() {// 装備破棄
+            var soubi = this.soubiList[this.removeNumber - 1].replace('static/img/装備リスト/', '');
+            soubi = soubi.replace('.png', '');
+            soubi = soubi.replace('.gif', '');
+            var res = confirm("◆"+ soubi +"を破棄しますか？");
+            if( res == true ) { 
+              this.soubiList[this.removeNumber - 1] = 'static/img/装備リスト/装備無し.png'
+              this.$forceUpdate()
+            }
+          },
+          open_chest() { //宝箱
+            if (this.key == true) {
+              var res = confirm("◆鍵を使用して宝箱を開けますか？");
+                if( res == true ) { 
+                  for (let i = 0; i < this.soubiList.length; i++) {
+                    if (this.soubiList[i] === 'static/img/装備リスト/宝箱の鍵.png') {// 一番順番が早い 鍵を空に
+                      this.soubiList[i] = 'static/img/装備リスト/装備無し.png';
+                      this.$forceUpdate() //再描画
+                      this.key = false;
+                      var gain = Math.floor(Math.random()*10000 + 100) // 100～10100
+                      this.coin += gain
+                      document.getElementById("coinvalue").innerHTML = '<p>' + app.formatcoin(app.coin) + '</p>' // お金の表示を更新
+                      alert(gain + 'コインを入手した。')
+                      break;
+                    }
+                  }
+                }
+            }else{
+              alert('宝箱の鍵が必要です。')
+            }
+          },
+          best_soubi() { //強い装備を呼び出す
+            this.soubiList = ['static/img/装備リスト/ダイヤのピッケル.png','static/img/装備リスト/レジェンドピッケル.png','static/img/装備リスト/双剣.png',
+                         'static/img/装備リスト/拳.png','static/img/装備リスト/^^.gif','static/img/装備リスト/ロケットランチャー.png',
+                         'static/img/装備リスト/チェーンソー.png','static/img/装備リスト/死神の鎌.png','static/img/装備リスト/竜神の剣.gif',
+                         'static/img/装備リスト/風魔法.gif','static/img/装備リスト/雷魔法.gif','static/img/装備リスト/宝箱の鍵.png',
+                         'static/img/装備リスト/宝箱の鍵.png','static/img/装備リスト/力がみなぎる薬.png','static/img/装備リスト/力がみなぎる薬.png']
+                         this.$forceUpdate() //再描画
+            alert('最強装備セットを呼び出しました。')
+          }
+        }
+			})
+    </script>
+  </body>
+</html>

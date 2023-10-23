@@ -1,0 +1,225 @@
+@charset "UTF-8"; 
+html { 
+	width: 100%; /* 両サイドの空きスペース */
+	margin-right: auto; 
+	margin-left: auto; 
+	font-family: sans-serif; 
+	font-size: 16px; 
+	line-height: 0; /* サイトの上部分の空きスペース */
+} 
+body {
+	margin: 0;
+	padding: 0;
+}
+select,optgroup,textarea { 
+	font-family: inherit; 
+	font-size: inherit; 
+	line-height: inherit; 
+} 
+button { 
+	cursor: pointer; 
+	padding: 5px 12px; 
+	border-radius: 6px; 
+	color: #fff; 
+	border: 2px; 
+	background-color: #007bff; 
+} 
+button:hover { 
+	background-color: #0069d9; 
+} 
+button:active { 
+	background-color: #003c7c; 
+} 
+button:disabled { 
+	opacity: .5; 
+	pointer-events: none; 
+} 
+input { 
+	padding: 6px 12px; 
+	border-radius: 6px; 
+	color: #495057; 
+	border: 2px solid #ced4da; 
+} 
+textarea { 
+	width: 500px; 
+	height: 200px; 
+} 
+select { 
+	border: 2px solid #ced4da; 
+}
+
+/* メニューのcss */
+#coin img {
+	position: relative;
+	right: 120px;
+	bottom: 50px;
+	float: right;
+}
+#coinvalue {
+	position: relative;
+	right: 0px;
+	bottom: 55px;
+	float: right;
+    font-size: 25px;
+	color: goldenrod;
+	-webkit-text-stroke: 1px #FFF;
+}
+.menu_left {
+	padding: 18px;
+	background-image: url(../img/基本画像/和風.jpg);
+}
+.menu_left h1{
+	line-height: 0px;
+	margin: 14px 0px;
+    color: yellow;
+}
+.menu_left input{
+	position: absolute;
+	left: 310px;
+	top: 15px;
+}
+/* ユーザー名決定ボタン */
+.menu_left button{
+	position: absolute;
+	left: 500px;
+	top: 16px;
+}
+.user_name {
+	position: absolute;
+	left: 310px;
+	top: 35px;
+}
+.power b{
+	position: absolute;
+	left: 553px;
+	color: red;
+	top: 40px;
+}
+.menu_right button{
+	position: absolute;
+	left: 800px;
+	top: 16px;
+}
+/* ここまで */
+
+/* 鉱石採掘のcss */
+.allore a{
+	cursor: url(../img/カーソル/Pickaxe.cur), auto;
+	padding-left: 100px;
+}
+#ore_name p{
+	position: relative;
+	right: 347px;
+	padding-bottom: 0px;
+	color: #ff0000;
+	text-align: center;
+}
+#ore_hp {
+	position: relative;
+	right: 348px;
+	color: rgb(5, 255, 88);
+	text-align: center;
+}
+#coin_increase p{
+	position: relative;
+	right: 350px;
+	color: rgb(232, 205, 0);
+	text-align: center;
+}
+.mining_text p {
+	padding-left: 227px;
+}
+/* ここまで */
+
+/* モンスター討伐のcss */
+.allenemy a {
+	cursor: url(../img/カーソル/Sword.cur), auto;
+}
+.allenemy img {
+	position: relative;
+	right: 580px;
+	bottom: 210px;
+	float: right;
+	text-align: center;
+}
+#enemy_name p{
+	position: relative;
+	left: 60px;
+	bottom: 45px;
+	padding-bottom: 0px;
+	color: #ff0000;
+	text-align: center;
+}
+#enemy_hp {
+	position: relative;
+	left: 60px;
+	bottom: 45px;
+	color: rgb(5, 255, 88);
+	text-align: center;
+}
+#damage_increase p{
+	position: relative;
+	left: 61px;
+	bottom: 45px;
+	color: rgb(229, 0, 0);
+	text-align: center;
+}
+.battle_text p {
+	position: relative;
+	left: 555px;
+	bottom: 213px;
+}
+#enemy_update{
+	position: relative;
+	right: 325px;
+	bottom: 140px;
+	float: right;
+}
+/* ここまで */
+
+/* ショップのcss */
+.shop b{
+	position: relative;
+	left: 20px;
+	bottom: 25px;
+	color: rgb(0, 42, 255);
+}
+.shop table{
+	table-layout: fixed;
+	text-align: center;
+	position: relative;
+	bottom: 15px;
+}
+/* ここまで */
+
+
+/* その他 */
+#book {
+	float: left;
+    margin: 0px 0px;
+}
+#weapon_text {
+	position: relative;
+	left: 830px;
+}
+#weapon_list {
+	position: absolute;
+	left: 950px;
+	float: right;
+}
+#remove_item { /* アイテム破棄 */
+	position: relative;
+	left: 970px;
+	bottom: 100px;
+}
+#chest {/* 宝箱 */
+	position: relative;
+	left: 130px;
+	bottom: 40px;
+	float: right;
+}
+#Bestsoubi {
+	position: relative;
+	left: 1930px;
+	bottom: 30px;
+}
