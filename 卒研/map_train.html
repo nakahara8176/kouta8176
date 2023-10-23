@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_071eed0649880790a47c42fba2f024ac {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_071eed0649880790a47c42fba2f024ac" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_071eed0649880790a47c42fba2f024ac = L.map(
+                "map_071eed0649880790a47c42fba2f024ac",
+                {
+                    center: [35.736489, 139.746875],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 14,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_8595114fdaaa4988e3d19a3991abacec = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_071eed0649880790a47c42fba2f024ac);
+        
+    
+            var marker_b145d73e786b05be69dac691a5290b07 = L.marker(
+                [35.736489, 139.746875],
+                {}
+            ).addTo(map_071eed0649880790a47c42fba2f024ac);
+        
+    
+        var popup_fdf7c6b5bd5246810a80ff89450ff8a5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0af1d08852d9849812f67db40aa34b43 = $(`<div id="html_0af1d08852d9849812f67db40aa34b43" style="width: 100.0%; height: 100.0%;">駒込</div>`)[0];
+                popup_fdf7c6b5bd5246810a80ff89450ff8a5.setContent(html_0af1d08852d9849812f67db40aa34b43);
+            
+        
+
+        marker_b145d73e786b05be69dac691a5290b07.bindPopup(popup_fdf7c6b5bd5246810a80ff89450ff8a5)
+        ;
+
+        
+    
+    
+            var marker_b12ad5ca0107ae7f8d31aa969aa10fad = L.marker(
+                [35.727772, 139.770987],
+                {}
+            ).addTo(map_071eed0649880790a47c42fba2f024ac);
+        
+    
+        var popup_f38f7bbd3d0bf8713927549dc48f4099 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b64e2b0846293f490c4b0bef061c6514 = $(`<div id="html_b64e2b0846293f490c4b0bef061c6514" style="width: 100.0%; height: 100.0%;">日暮里</div>`)[0];
+                popup_f38f7bbd3d0bf8713927549dc48f4099.setContent(html_b64e2b0846293f490c4b0bef061c6514);
+            
+        
+
+        marker_b12ad5ca0107ae7f8d31aa969aa10fad.bindPopup(popup_f38f7bbd3d0bf8713927549dc48f4099)
+        ;
+
+        
+    
+    
+            var marker_88c95554e61d8790e7d61429dbbaa02e = L.marker(
+                [35.728926, 139.71038],
+                {}
+            ).addTo(map_071eed0649880790a47c42fba2f024ac);
+        
+    
+        var popup_070e8b40bea5bfcbd9b3db2733fad3d3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b6f0eea88f47c82be500017fd449fd3a = $(`<div id="html_b6f0eea88f47c82be500017fd449fd3a" style="width: 100.0%; height: 100.0%;">池袋</div>`)[0];
+                popup_070e8b40bea5bfcbd9b3db2733fad3d3.setContent(html_b6f0eea88f47c82be500017fd449fd3a);
+            
+        
+
+        marker_88c95554e61d8790e7d61429dbbaa02e.bindPopup(popup_070e8b40bea5bfcbd9b3db2733fad3d3)
+        ;
+
+        
+    
+    
+            var marker_291ad86f7f9ce9a62a66db4f745e6dd6 = L.marker(
+                [35.720495, 139.778837],
+                {}
+            ).addTo(map_071eed0649880790a47c42fba2f024ac);
+        
+    
+        var popup_e73022526adeacf8dc1ace5029c36571 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7e3b9e50c98903ae81feac68b1c9e7ad = $(`<div id="html_7e3b9e50c98903ae81feac68b1c9e7ad" style="width: 100.0%; height: 100.0%;">鶯谷</div>`)[0];
+                popup_e73022526adeacf8dc1ace5029c36571.setContent(html_7e3b9e50c98903ae81feac68b1c9e7ad);
+            
+        
+
+        marker_291ad86f7f9ce9a62a66db4f745e6dd6.bindPopup(popup_e73022526adeacf8dc1ace5029c36571)
+        ;
+
+        
+    
+</script>
+</html>
